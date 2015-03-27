@@ -1,11 +1,11 @@
   /**
    * Add pagination to a specified query object
    *
-   * @param Doctrine_Query $query  The query to add pagination to
+   * @param Doctrine_Query $q  The query to add pagination to
    * @param array &$params  The parameters
    * @return Doctrine_Query  The query, amended with pagination
    */
-  protected function queryPagination(Doctrine_Query $query, array &$params)
+  protected function queryPagination(Doctrine_Query $q, array &$params)
   {
 <?php
 $max_items = $this->configuration->getValue('get.max_items');
