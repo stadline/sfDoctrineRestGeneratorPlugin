@@ -9,20 +9,23 @@
   {
     if ($action == 'show')
     {
-      $route_parameters = $this->object->identifier();
+      $route_parameters = array_merge(
+        $this->getRoute()->getParameters(),
+        $this->object->identifier()
+      );
     }
     else
     {
-      $route_parameters = '';
+      $route_parameters = $this->getRoute()->getParameters();
     }
 
     return $this->getController()->genUrl(
       array_merge(
+        $route_parameters,
         array(
           'sf_route' => '<?php echo $this->getModuleName(); ?>_'.$action,
           'sf_format' => $this->getFormat(),
-        ),
-        $route_parameters
+        )
       ),
       $absolute
     );
