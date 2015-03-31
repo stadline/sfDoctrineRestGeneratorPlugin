@@ -6,12 +6,12 @@
    */
   public function queryFetchOne($params)
   {
-    $this->objects = array($this->dispatcher->filter(
+    $this->objects = $this->dispatcher->filter(
       new sfEvent(
         $this,
         'sfDoctrineRestGenerator.filter_result',
         array()
       ),
-      $this->query($params)->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY)
-    )->getReturnValue());
+      array($this->query($params)->limit(1)->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY))
+    )->getReturnValue();
   }

@@ -50,7 +50,7 @@
     // retrieve the object
 <?php $primaryKey = Doctrine_Core::getTable($this->getModelClass())->getIdentifier() ?>
     $primaryKey = $request->getParameter('<?php echo $primaryKey ?>');
-    $this->object = Doctrine_Core::getTable($this->model)->findOneBy<?php echo sfInflector::camelize($primaryKey) ?>($primaryKey);
+    $this->object = $this->query(array('<?php echo $primaryKey ?>', $primaryKey))->limit(1)->fetchOne();
     $this->forward404Unless($this->object);
 
     // update and save it
