@@ -50,8 +50,8 @@ $test_browser->
     isParameter('action', 'create')->
   end()->
 
-  with('response')->begin()->//debug()->
-    isStatusCode(200)->
+  with('response')->begin()->
+    isStatusCode(201)->
   end()
 ;
 
@@ -89,7 +89,7 @@ if ($location)
       isParameter('action', 'update')->
     end()->
 
-    with('response')->begin()->//debug()->
+    with('response')->begin()->
       isStatusCode(200)->
     end()
   ;
@@ -103,8 +103,8 @@ if ($location)
       isParameter('action', 'delete')->
     end()->
 
-    with('response')->begin()->//debug()->
-      isStatusCode(200)->
+    with('response')->begin()->
+      isStatusCode(204)->
     end()
   ;
 }

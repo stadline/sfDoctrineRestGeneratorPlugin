@@ -13,5 +13,7 @@
     $this->object = $this->query(array('<?php echo $primaryKey ?>', $primaryKey))->limit(1)->fetchOne();
     $this->forward404Unless($this->object);
     $this->object->delete();
+
+    $this->getResponse()->setStatusCode(204);
     return sfView::NONE;
   }
