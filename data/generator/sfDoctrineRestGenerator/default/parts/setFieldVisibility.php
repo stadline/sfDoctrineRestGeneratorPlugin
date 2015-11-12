@@ -37,14 +37,15 @@ $object_additional_fields = $this->configuration->getValue('get.object_additiona
       }
     }
 <?php endif; ?>
-<?php $embedded_relations_hide = $this->configuration->getValue('get.embedded_relations_hide'); ?>
-<?php if (count($embedded_relations_hide) > 0): ?>
+<?php $embedded_relations_display = $this->configuration->getValue('get.embedded_relations_display', array()); ?>
+<?php $embedded_relations_hide = $this->configuration->getValue('get.embedded_relations_hide', array()); ?>
 
+    $embedded_relations_display = <?php echo var_export($embedded_relations_display, true); ?>;
     $embedded_relations_hide = <?php echo var_export($embedded_relations_hide, true); ?>;
 
     // relation types
     $relation_types = array(
-<?php foreach (array_keys($embedded_relations_hide) as $relation_name): ?>
+<?php foreach (array_keys(array_merge($embedded_relations_display, $embedded_relations_hide)) as $relation_name): ?>
 <?php
 $relation = Doctrine_Core::getTable($this->getModelClass())->getRelation($relation_name);
 ?>
@@ -57,6 +58,30 @@ $relation = Doctrine_Core::getTable($this->getModelClass())->getRelation($relati
       // only filter objects, not additional fields
       if (is_int($i))
       {
+<?php if (count($embedded_relations_display) > 0): ?>
+        foreach ($embedded_relations_display as $relation_name => $displayed_fields)
+        {
+          if (isset($object[$relation_name]))
+          {
+            if (false === $relation_types[$relation_name])
+            {
+                $object[$relation_name] = array_intersect_key($object[$relation_name], $displayed_fields);
+            }
+            else
+            {
+              $related_objects = $object[$relation_name];
+
+              foreach ($related_objects as $j => $related_object)
+              {
+                $related_objects[$j] = array_intersect_key($related_object, $displayed_fields);
+              }
+
+              $object[$relation_name] = $related_objects;
+            }
+          }
+        }
+<?php endif; ?>
+<?php if (count($embedded_relations_hide) > 0): ?>
         foreach ($embedded_relations_hide as $relation_name => $hidden_fields)
         {
           if (isset($object[$relation_name]))
@@ -78,9 +103,9 @@ $relation = Doctrine_Core::getTable($this->getModelClass())->getRelation($relati
             }
           }
         }
+<?php endif; ?>
 
         $this->objects[$i] = $object;
       }
     }
-<?php endif; ?>
   }

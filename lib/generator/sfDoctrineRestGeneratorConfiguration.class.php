@@ -27,6 +27,7 @@ class sfDoctrineRestGeneratorConfiguration
         'default_format'              => $this->getDefaultFormat(),
         'display'                     => $this->getDisplay(),
         'embed_relations'             => $this->getEmbedRelations(),
+        'embedded_relations_display'  => $this->getEmbeddedRelationsDisplay(),
         'embedded_relations_hide'     => $this->getEmbeddedRelationsHide(),
         'fields'                      => $this->getFieldsGet(),
         'filters'                     => $this->getFilters(),
