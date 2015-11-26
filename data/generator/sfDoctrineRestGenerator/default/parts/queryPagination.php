@@ -5,7 +5,7 @@
    * @param array &$params  The parameters
    * @return Doctrine_Query  The query, amended with pagination
    */
-  protected function queryPagination(Doctrine_Query $q, array &$params)
+  protected function queryPagination($q, array &$params)
   {
 <?php
 $max_items = $this->configuration->getValue('get.max_items');

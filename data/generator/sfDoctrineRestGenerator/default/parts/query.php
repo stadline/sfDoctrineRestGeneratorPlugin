@@ -6,7 +6,7 @@
    */
   public function query($params)
   {
-    $q = Doctrine_Query::create()
+    $q = Doctrine_Core::getTable($this->model)->createQuery($this->model)
 <?php
 $display = $this->configuration->getValue('get.display');
 $embed_relations = $this->configuration->getValue('get.embed_relations');
@@ -21,8 +21,6 @@ foreach ($embed_relations as $relation_name)
 <?php $display = implode(', ', $fields); ?>
       ->select('<?php echo $display ?>')
 <?php endif; ?>
-
-      ->from($this->model.' '.$this->model)
 <?php foreach ($embed_relations as $embed_relation): ?>
 <?php if (!$this->isManyToManyRelation($embed_relation)): ?>
 
