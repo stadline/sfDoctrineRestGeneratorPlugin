@@ -7,6 +7,12 @@
   **/
   protected function getUrlForAction($action = 'show', $absolute = true)
   {
+    $route_name = sfContext::getInstance()->getRouting()->getCurrentRouteName();
+    if (preg_match('#_'.$this->getActionName().'$#', $route_name))
+    {
+      $route_name = substr($route_name, 0, strrpos($route_name, '_'.$this->getActionName()));
+    }
+
     if ($action == 'show')
     {
       $route_parameters = array_merge(
@@ -23,7 +29,7 @@
       array_merge(
         $route_parameters,
         array(
-          'sf_route' => '<?php echo $this->getModuleName(); ?>_'.$action,
+          'sf_route' => $route_name.'_'.$action,
           'sf_format' => $this->getFormat(),
         )
       ),
