@@ -90,7 +90,7 @@ if ($location)
     end()->
 
     with('response')->begin()->
-      isStatusCode(200)->
+      isStatusCode(204)->
     end()
   ;
 
